@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+:root {
+  font-family: Rubik, sans-serif;
+  font-size: 1rem;
+  line-height: 24px;
+  font-weight: 400;
+  background: linear-gradient(180deg, #807ece 0%, #8e7ece 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
