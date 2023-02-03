@@ -1,8 +1,8 @@
-enum MathematicalOperators {
+enum MathematicalOperations {
     PLUS = "+",
     MINUS = "-",
     MULTIPLICATION = "x",
     DIVIDE = "÷",
 }
 
-export default MathematicalOperators;
+export default MathematicalOperations;
