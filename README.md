@@ -14,7 +14,7 @@ Welcolme to the calculator app! This is a simple calculator app built with React
 
 The project is deployed on Vercel. You can access by clicking the button below:
 
-[![Vercel](https://img.shields.io/badge/vercel-%2320232a.svg?style=for-the-badge&logo=vercel&logoColor=%2361DAFB)](https://vercel.com)
+[![Vercel](https://img.shields.io/badge/vercel-%2320232a.svg?style=for-the-badge&logo=vercel&logoColor=%2361DAFB)](https://calculator-app-ochre-alpha.vercel.app)
 
 ## How to run
 
