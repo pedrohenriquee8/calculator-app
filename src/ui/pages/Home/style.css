@@ -1,3 +1,9 @@
+:root {
+  --cancelEntry: #975dfa;
+  --operations: #975dfa;
+  --equals: #7f45e2;
+}
+
 .container {
   display: flex;
   padding: 48px;
@@ -79,13 +85,13 @@
 }
 
 .row:first-child input:first-child {
-  color: #975dfa;
+  color: var(--cancelEntry);
 }
 
-.row .operator {
-  background: #462878;
+.row .operation {
+  background: var(--operations);
 }
 
-.row:last-child .operator {
-  background: #7f45e2;
+.row:last-child .operation {
+  background: var(--equals);
 }
