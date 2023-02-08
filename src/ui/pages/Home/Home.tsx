@@ -1,5 +1,7 @@
 import { useState } from "react";
-import MathematicalOperations from "./MathematicalOperations";
+import MathematicalOperations from "../../types/MathematicalOperations";
+import calculateAccordingOperation from "../../utils/Operations";
+import calculateAccordingPlusMinus from "../../utils/PlusMinus";
 
 import "./style.css";
 
@@ -34,6 +36,7 @@ const Home = () => {
         setCurrent("");
         setPrevious("");
         setResult(0);
+        setController(false);
         setSelectedOperation(null);
     }
 
@@ -41,62 +44,15 @@ const Home = () => {
         if (current.length) { //If the current string exists.
             if (controller) { //If the controller for continuous calculations is true.
                 if (operation !== selectedOperation) { //If the selected operation is different from the operation current.
-                    switch (selectedOperation) {
-                        case MathematicalOperations.PLUS:
-                            const sum = Number(previous) + Number(current);
-                            setCurrent("");
-                            setPrevious(String(sum));
-                            setSelectedOperation(operation);
-                            break;
-                        case MathematicalOperations.MINUS:
-                            const minus = Number(previous) - Number(current);
-                            setCurrent("");
-                            setPrevious(String(minus));
-                            setSelectedOperation(operation);
-                            break;
-                        case MathematicalOperations.MULTIPLICATION:
-                            const multiplication = Number(previous) * Number(current);
-                            setCurrent("");
-                            setPrevious(String(multiplication));
-                            setSelectedOperation(operation);
-                            break;
-                        case MathematicalOperations.DIVIDE:
-                            const divide = Number(previous) / Number(current);
-                            setCurrent("");
-                            setPrevious(String(divide));
-                            setSelectedOperation(operation);
-                            break;
-                    }
+                    const calculation = calculateAccordingOperation(selectedOperation!, previous!, current);
+                    setCurrent("");
+                    setPrevious(String(calculation));
+                    setSelectedOperation(operation);
                 } else { //If the selected operation is the same as the operation current.
-                    switch (operation) {
-                        case MathematicalOperations.PLUS:
-                            const sum = Number(previous) + Number(current);
-                            setCurrent("");
-                            setPrevious(String(sum));
-                            setSelectedOperation(operation);
-                            break;
-
-                        case MathematicalOperations.MINUS:
-                            const minus = Number(previous) - Number(current);
-                            setCurrent("");
-                            setPrevious(String(minus));
-                            setSelectedOperation(operation);
-                            break;
-
-                        case MathematicalOperations.MULTIPLICATION:
-                            const multiplication = Number(previous) * Number(current);
-                            setCurrent("");
-                            setPrevious(String(multiplication));
-                            setSelectedOperation(operation);
-                            break;
-
-                        case MathematicalOperations.DIVIDE:
-                            const divide = Number(previous) / Number(current);
-                            setCurrent("");
-                            setPrevious(String(divide));
-                            setSelectedOperation(operation);
-                            break;
-                    }
+                    const calculation = calculateAccordingOperation(operation, previous!, current);
+                    setCurrent("");
+                    setPrevious(String(calculation));
+                    setSelectedOperation(operation);
                 }
             } else { //If the controller for continuous calculations is false.
                 setCurrent("");
@@ -114,32 +70,21 @@ const Home = () => {
     }
 
     const handleDecimalNumber = () => { //Add a decimal number to the current string.
-        if (current.length) {
-            if (!current.includes(".")) {
-                setCurrent(current + ".");
-            }
+        if (current.length && !current.includes(".")) {
+            setCurrent(current + ".");
         }
     }
 
     const handlePlusMinus = (operation: MathematicalOperations) => { //Change the sign of the current string.
         if (previous && operation && current) { //If the previous string, the selected operation and the current string exist to do the operations with the current value.
-            switch (operation) {
-                case MathematicalOperations.PLUS:
-                    setSelectedOperation(MathematicalOperations.MINUS);
-                    break;
+            const operationPlusMinus = calculateAccordingPlusMinus(operation, current);
 
-                case MathematicalOperations.MINUS:
-                    setSelectedOperation(MathematicalOperations.PLUS);
-                    break;
-
-                case MathematicalOperations.MULTIPLICATION:
-                    setCurrent(String(Number(current) * (-1)));
-                    break;
-
-                case MathematicalOperations.DIVIDE:
-                    setCurrent(String(Number(current) * (-1)));
-                    break;
+            if (operationPlusMinus === MathematicalOperations.PLUS || operationPlusMinus === MathematicalOperations.MINUS) {
+                setSelectedOperation(operationPlusMinus);
+                return;
             }
+
+            setCurrent(operationPlusMinus);
         } else { //If the previous string, the selected operation and the current string don't exist to do the operations with the current string.
             if (current.length) {
                 setCurrent(String(Number(current) * (-1)));
@@ -149,43 +94,12 @@ const Home = () => {
 
     const handleResult = (operation: MathematicalOperations | null) => { //Calculate the result of the operation.
         if (operation) { //If the selected operation exists.
-            switch (operation) { //Do the operation with the previous and current strings according to the enum MathematicalOperations, in addition to resetting the string values.
-                case MathematicalOperations.PLUS:
-                    const plus = Number(previous) + Number(current);
-                    setResult(plus);
-                    setCurrent("");
-                    setPrevious("");
-                    setSelectedOperation(null);
-                    setController(false);
-                    break;
-
-                case MathematicalOperations.MINUS:
-                    const minus = Number(previous) - Number(current);
-                    setResult(minus);
-                    setCurrent("");
-                    setPrevious("");
-                    setSelectedOperation(null);
-                    setController(false);
-                    break;
-
-                case MathematicalOperations.MULTIPLICATION:
-                    const multiplication = Number(previous) * Number(current);
-                    setResult(multiplication);
-                    setCurrent("");
-                    setPrevious("");
-                    setSelectedOperation(null);
-                    setController(false);
-                    break;
-
-                case MathematicalOperations.DIVIDE:
-                    const divide = Number(previous) / Number(current);
-                    setResult(divide);
-                    setCurrent("");
-                    setPrevious("");
-                    setSelectedOperation(null);
-                    setController(false);
-                    break;
-            }
+            const calculation = calculateAccordingOperation(operation, previous!, current); //Do the operation with the previous and current strings according to the enum MathematicalOperations, in addition to resetting the string values.
+            setResult(calculation);
+            setCurrent("");
+            setPrevious("");
+            setSelectedOperation(null);
+            setController(false);
         } else { //If the selected operation doesn't exist.
             setCurrent("");
             setController(false);
